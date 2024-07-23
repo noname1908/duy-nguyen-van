@@ -1,4 +1,5 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 
 import routes from './routes';
 
@@ -14,6 +15,16 @@ class App {
 
   middlewares() {
     this.server.use(express.json());
+    this.server.use(express.static('public'));
+    this.server.use(
+      '/docs',
+      swaggerUi.serve,
+      swaggerUi.setup(undefined, {
+        swaggerOptions: {
+          url: '/swagger.json',
+        },
+      })
+    );
   }
 
   routes() {
